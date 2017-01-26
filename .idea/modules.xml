@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file:///mnt/3CD8FDE9A7E0998D/Documents/Android Studio Projects/uporotiyinvestor/app/app.iml" filepath="/mnt/3CD8FDE9A7E0998D/Documents/Android Studio Projects/uporotiyinvestor/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/uporotiyinvestor.iml" filepath="$PROJECT_DIR$/uporotiyinvestor.iml" />
+      <module fileurl="file:///mnt/3CD8FDE9A7E0998D/Documents/Android Studio Projects/uporotiyinvestor/uporotiyinvestor.iml" filepath="/mnt/3CD8FDE9A7E0998D/Documents/Android Studio Projects/uporotiyinvestor/uporotiyinvestor.iml" />
+    </modules>
+  </component>
+</project>

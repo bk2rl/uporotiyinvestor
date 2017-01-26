@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Uporotiy Investor</string>
+    <string name="first_stage_problem">1st Stage: Problem</string>
+    <string name="second_stage_product">2nd Stage: Product</string>
+    <string name="third_stage_feature">3rd Stage: Feature</string>
+    <string name="greetings">Greetings!</string>
+    <string name="invested">Invested!</string>
+    <string name="facebook_app_id">1701907783469321</string>
+    <string name="send_to">Send to...</string>
+</resources>

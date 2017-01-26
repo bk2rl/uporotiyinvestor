@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Впоротий інвестор</string>
+    <string name="send_to">Надіслати…</string>
+    <string name="first_stage_problem">Етап 1: Проблема</string>
+    <string name="second_stage_product">Етап 2: Продукт</string>
+    <string name="third_stage_feature">Етап 3: Перевага</string>
+    <string name="greetings">Вітання!</string>
+    <string name="invested">Проінвестовано!</string>
+</resources>

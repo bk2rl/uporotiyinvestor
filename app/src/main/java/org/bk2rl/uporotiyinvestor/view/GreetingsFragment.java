@@ -63,7 +63,7 @@ public class GreetingsFragment extends Fragment {
         }
 
         ((UporotoeActivity)getActivity()).setSupportActionBar(toolbar);
-        rootView.findViewById(R.id.ppt_image).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.wake_up_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onButtonPressed("switch-to-start");

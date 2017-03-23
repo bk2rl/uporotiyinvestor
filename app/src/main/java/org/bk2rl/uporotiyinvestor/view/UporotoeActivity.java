@@ -1,10 +1,8 @@
 package org.bk2rl.uporotiyinvestor.view;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import org.bk2rl.uporotiyinvestor.R;
 import org.bk2rl.uporotiyinvestor.model.Feature;
@@ -31,9 +29,31 @@ ResultFragment.OnFragmentInteractionListener, GreetingsFragment.OnFragmentIntera
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fragments.put(PRODUCT_FRAGMENT,ItemFragment.newInstance(2, Item.ItemType.PRODUCT));
-        fragments.put(FEATURE_FRAGMENT,ItemFragment.newInstance(2, Item.ItemType.FEATURE));
-        fragments.put(PROBLEM_FRAGMENT,ItemFragment.newInstance(2, Item.ItemType.PROBLEM));
+
+        fragments.put(PRODUCT_FRAGMENT, new ItemFragment.ItemFragmentBuilder()
+                .setRandomItems(RandomItems.getRandomProducts())
+                .setColumnCount(2)
+                .setDrawableResource(R.drawable.product2)
+                .setFirstColor(getResources().getColor(R.color.product))
+                .setSecondColor(getResources().getColor(R.color.productDark))
+                .setText(getResources().getString(R.string.second_stage_product)).build());
+
+        fragments.put(FEATURE_FRAGMENT,new ItemFragment.ItemFragmentBuilder()
+                .setRandomItems(RandomItems.getRandomFeatures())
+                .setColumnCount(2)
+                .setDrawableResource(R.drawable.feature3)
+                .setFirstColor(getResources().getColor(R.color.feature))
+                .setSecondColor(getResources().getColor(R.color.featureDark))
+                .setText(getResources().getString(R.string.third_stage_feature)).build());
+
+        fragments.put(PROBLEM_FRAGMENT,new ItemFragment.ItemFragmentBuilder()
+                .setRandomItems(RandomItems.getRandomProblems())
+                .setColumnCount(2)
+                .setDrawableResource(R.drawable.problem1)
+                .setFirstColor(getResources().getColor(R.color.problem))
+                .setSecondColor(getResources().getColor(R.color.problemDark))
+                .setText(getResources().getString(R.string.first_stage_problem)).build());
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, GreetingsFragment.newInstance()).commit();
 //        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 //        RandomItems randomProduct = RandomItems.generate();

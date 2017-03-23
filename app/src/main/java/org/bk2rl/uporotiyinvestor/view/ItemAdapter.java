@@ -1,23 +1,18 @@
 package org.bk2rl.uporotiyinvestor.view;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
 import org.bk2rl.uporotiyinvestor.R;
-import org.bk2rl.uporotiyinvestor.model.Feature;
 import org.bk2rl.uporotiyinvestor.model.Item;
-import org.bk2rl.uporotiyinvestor.model.Problem;
-import org.bk2rl.uporotiyinvestor.model.Product;
 
 import java.util.List;
 
@@ -52,15 +47,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 //        holder.mImageView.setLayoutParams(mLayoutParams);
 //        holder.mView.setBackground(ContextCompat.getDrawable(mContext,R.drawable.item_border));
 
-        String imgSrc = null;
-
-        if (holder.mItem instanceof Product) {
-            imgSrc  = "file:///android_asset/products/" + holder.mItem.getImgSrc();
-        } else if (holder.mItem instanceof Feature) {
-            imgSrc = "file:///android_asset/features/" + holder.mItem.getImgSrc();
-        } else if (holder.mItem instanceof Problem) {
-            imgSrc = "file:///android_asset/problems/" + holder.mItem.getImgSrc();
-        }
+        String imgSrc = holder.mItem.getFullImgSrc();
 
         Glide.with(mContext).load(imgSrc)
                 .asBitmap().into(holder.mImageView);

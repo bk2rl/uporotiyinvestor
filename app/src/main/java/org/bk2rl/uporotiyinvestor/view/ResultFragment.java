@@ -97,17 +97,8 @@ public class ResultFragment extends Fragment {
                     bitmap = Bitmap.createBitmap(textView.getMeasuredWidth(), textView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bitmap);
                     textView.layout(0, 0, textView.getMeasuredWidth(), textView.getMeasuredHeight());
-                    canvas.drawColor(Color.WHITE);
+                    canvas.drawColor(Color.BLACK);
                     textView.draw(canvas);
-//                    SharePhoto photo = new SharePhoto.Builder()
-//                            .setBitmap(bitmap)
-//                            .build();
-//                    SharePhotoContent content = new SharePhotoContent.Builder()
-//                            .addPhoto(photo)
-//                            .build();
-//                ShareDialog.show(ResultFragment.this, content);
-//                ((ImageView) view.findViewById(R.id.testResult)).setImageBitmap(bitmap);
-//                    shareButton.setShareContent(content);
                     textView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
         });

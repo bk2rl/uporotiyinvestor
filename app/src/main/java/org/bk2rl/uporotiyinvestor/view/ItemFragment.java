@@ -2,10 +2,12 @@ package org.bk2rl.uporotiyinvestor.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,31 +26,35 @@ import org.bk2rl.uporotiyinvestor.R;
 import org.bk2rl.uporotiyinvestor.model.Item;
 import org.bk2rl.uporotiyinvestor.model.RandomItems;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemFragment extends Fragment {
+
+    private static final String ARG_ITEMS_LIST = "items-list";
     private static final String ARG_COLUMN_COUNT = "column-count";
-    private static final String ARG_ITEM_TYPE = "item-type";
-    private int mColumnCount = 3;
-    private Item.ItemType mItemType;
+    private static final String ARG_TOOLBAR_DRAWABLE = "toolbar-drawableRes";
+    private static final String ARG_TOOLBAR_TEXT = "toolbar-text";
+    private static final String ARG_TOOLBAR_FIRST_COLOR = "toolbar-first-color";
+    private static final String ARG_TOOLBAR_SECOND_COLOR = "toolbar-second-color";
+
+    private List<Item> mRandomItems;
+    private int mColumnCount;
+    private int mDrawableResource;
+    private String mText;
+    private int mFirstColor;
+    private int mSecondColor;
+
     private OnListFragmentInteractionListener mListener;
-    private List<Item> randomItems;
     private RecyclerView recyclerView;
     private View rootView;
     private ImageView titleImageView;
     private Toolbar toolbar;
     private TextView toolBarTitle;
+    private UporotoeActivity mActivity;
 
     public ItemFragment() {
-    }
-
-    public static ItemFragment newInstance(int columnCount, Item.ItemType itemType) {
-        ItemFragment fragment = new ItemFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        args.putSerializable(ARG_ITEM_TYPE, itemType);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -57,8 +63,14 @@ public class ItemFragment extends Fragment {
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-            mItemType = (Item.ItemType) getArguments().getSerializable(ARG_ITEM_TYPE);
+            mDrawableResource = getArguments().getInt(ARG_TOOLBAR_DRAWABLE);
+            mText = getArguments().getString(ARG_TOOLBAR_TEXT);
+            mFirstColor = getArguments().getInt(ARG_TOOLBAR_FIRST_COLOR);
+            mSecondColor = getArguments().getInt(ARG_TOOLBAR_SECOND_COLOR);
+            mRandomItems = ((List<Item>) (getArguments().getSerializable(ARG_ITEMS_LIST)));
         }
+
+        mActivity = ((UporotoeActivity) getActivity());
     }
 
     @Override
@@ -89,40 +101,25 @@ public class ItemFragment extends Fragment {
         toolbar.setTitle("");
         toolBarTitle = ((TextView) toolbar.findViewById(R.id.toolbar_title));
         toolBarTitle.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "fonts/comicbd.ttf"));
+
         Window window = getActivity().getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
-        switch (mItemType) {
-            case PRODUCT:
-                titleImageView.setImageResource(R.drawable.product2);
-                toolBarTitle.setText(R.string.second_stage_product);
-                toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.product));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.productDark));
-                }
-                break;
-            case PROBLEM:
-                titleImageView.setImageResource(R.drawable.problem1);
-                toolBarTitle.setText(R.string.first_stage_problem);
-                toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.problem));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.problemDark));
-                }
-                break;
-            case FEATURE:
-                toolBarTitle.setText(R.string.third_stage_feature);
-                titleImageView.setImageResource(R.drawable.feature3);
-                toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.feature));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.featureDark));
-                }
-                break;
-        }
+        setToolbarResources(mActivity.getResources().getDrawable(mDrawableResource), mText, mFirstColor, mSecondColor);
 
         ((UporotoeActivity) getActivity()).setSupportActionBar(toolbar);
+    }
+
+    private void setToolbarResources(Drawable drawableRes, String text, int firstColor, int secondColor) {
+        titleImageView.setImageDrawable(drawableRes);
+        toolBarTitle.setText(text);
+        toolbar.setBackgroundColor(firstColor);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().getWindow().setStatusBarColor(secondColor);
+        }
     }
 
     private void setRecyclerViewLayoutParams() {
@@ -143,60 +140,15 @@ public class ItemFragment extends Fragment {
                     }
                 };
 
-                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width/mColumnCount - 10,height/(RandomItems.MAX_ITEMS_VALUE/mColumnCount) - 10);
-                layoutParams.setMargins(5,5,5,5);
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width / mColumnCount - 10, height / (RandomItems.MAX_ITEMS_VALUE / mColumnCount) - 10);
+                layoutParams.setMargins(5, 5, 5, 5);
 
-                //TODO set gravity
                 recyclerView.setLayoutManager(layout);
-//                        visibleItems = column * rows;
-//                        soundItems = soundItems.subList(p_start = 0, p_end = visibleItems);
-//                        mAdapter = new SoundItemAdapter(soundItems, mListener, mActivity, mImageLoadingListener);
-                switch (mItemType) {
-                    case PRODUCT:
-                        titleImageView.setImageResource(R.drawable.product2);
-                        randomItems = RandomItems.getRandomProducts();
-                        break;
-                    case PROBLEM:
-                        titleImageView.setImageResource(R.drawable.problem1);
-                        randomItems = RandomItems.getRandomProblems();
-                        break;
-                    case FEATURE:
-                        titleImageView.setImageResource(R.drawable.feature3);
-                        randomItems = RandomItems.getRandomFeatures();
-                        break;
-                }
 
-                recyclerView.setAdapter(new ItemAdapter(getActivity().getApplicationContext(), randomItems, layoutParams, mListener));
+                titleImageView.setImageResource(mDrawableResource);
 
-//                itemView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//                    @Override
-//                    public void onGlobalLayout() {
-//                        int itemWidth = itemView.getWidth();
-//                        int itemHeight = itemView.getHeight();
-//                        int column = width / itemWidth;
-//                        int rows = height / itemHeight;
-//                        int addWidthMargin = (width - column * itemWidth) / 2;
-//                        int addHeightMargin = (height - rows * itemHeight) / 2;
-//
-//                        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) recyclerView.getLayoutParams();
-//                        lp.setMargins(lp.leftMargin + addWidthMargin, lp.topMargin + addHeightMargin,
-//                                lp.rightMargin + addWidthMargin, lp.bottomMargin + addHeightMargin);
-//                        recyclerView.setLayoutParams(lp);
-////                        loadScreen.setLayoutParams(lp);
-//
-//
-//
-//                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-//                            itemView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-//                        } else {
-//                            itemView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                        }
-//
-////                        currentPokemonIds.setText(
-////                                p_start + 1 != p_end ? String.format(Locale.getDefault(), "%d...%d", p_start + 1, p_end) :
-////                                        String.format(Locale.getDefault(), "%d", p_end));
-//                    }
-//                });
+                recyclerView.setAdapter(new ItemAdapter(getActivity().getApplicationContext(), mRandomItems, layoutParams, mListener));
+
 
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
                     recyclerView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
@@ -206,6 +158,7 @@ public class ItemFragment extends Fragment {
             }
         });
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -227,5 +180,76 @@ public class ItemFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Item item);
+    }
+
+    public static class ItemFragmentBuilder {
+
+        private int columnCount;
+        private int drawableRes;
+        private String text;
+        private int firstColor;
+        private int secondColor;
+        private ArrayList<Item> randomItems;
+
+
+        public ItemFragmentBuilder() {
+        }
+
+        public ItemFragmentBuilder setColumnCount(int columnCount) {
+            this.columnCount = columnCount;
+            return this;
+        }
+
+        public ItemFragmentBuilder setDrawableResource(@DrawableRes int drawable) {
+            this.drawableRes = drawable;
+            return this;
+        }
+
+        public ItemFragmentBuilder setText(String text) {
+            this.text = text;
+            return this;
+        }
+
+        public ItemFragmentBuilder setFirstColor(int firstColor) {
+            this.firstColor = firstColor;
+            return this;
+        }
+
+        public ItemFragmentBuilder setSecondColor(int secondColor) {
+            this.secondColor = secondColor;
+            return this;
+        }
+
+        public ItemFragmentBuilder setRandomItems(ArrayList<Item> randomItems) {
+            this.randomItems = randomItems;
+            return this;
+        }
+
+        public ItemFragment build() {
+            ItemFragment fragment = new ItemFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_COLUMN_COUNT, columnCount);
+            args.putInt(ARG_TOOLBAR_DRAWABLE, drawableRes);
+            args.putString(ARG_TOOLBAR_TEXT, text);
+            args.putInt(ARG_TOOLBAR_FIRST_COLOR, firstColor);
+            args.putInt(ARG_TOOLBAR_SECOND_COLOR, secondColor);
+            args.putSerializable(ARG_ITEMS_LIST, randomItems);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+
+        private class SerializableOverlay implements Serializable {
+            private Object object;
+
+            public SerializableOverlay(Object drawable) {
+                this.object = drawable;
+            }
+
+            public Object getObject() {
+                return object;
+            }
+        }
+
     }
 }

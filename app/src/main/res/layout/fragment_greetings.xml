@@ -30,7 +30,8 @@
         android:scaleType="fitXY"
         android:src="@drawable/greetings0" />
 
-    <FrameLayout
+
+    <ScrollView
         android:id="@+id/ppt_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,14 +39,29 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/title_image"
-        android:layout_margin="50dp">
-        <ImageView
-            android:layout_margin="0.75dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/ppt" />
-    </FrameLayout>
+        android:layout_margin="10dp">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+        <TextView
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/wake_up_mister_investor"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"/>
+            <android.support.v7.widget.ButtonBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <Button
+                        android:id="@+id/wake_up_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/wake_up"/>
+            </android.support.v7.widget.ButtonBarLayout>
+        </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>

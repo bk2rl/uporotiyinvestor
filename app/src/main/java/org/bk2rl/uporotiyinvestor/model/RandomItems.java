@@ -30,58 +30,6 @@ public class RandomItems {
 
     }
 
-//    public static RandomItems generate() {
-//        RandomItems randomProduct = new RandomItems();
-////        if ((product == null) || (features == null) || (problems == null)) {
-////            initialize();
-////        }
-//        randomProduct.product = products.get(random.nextInt(products.size()));
-//        randomProduct.possibility = features.get(random.nextInt(features.size()));
-//        randomProduct.problem = problems.get(random.nextInt(problems.size()));
-//
-//        return randomProduct;
-//    }
-
-//    public static void initialize(Context context) {
-//        try {
-//            products = new ArrayList<>();
-//            features = new ArrayList<>();
-//            problems = new ArrayList<>();
-//
-//            JsonReader jsonReader = new JsonReader(new InputStreamReader(context.getAssets().open("products.json")));
-//            jsonReader.beginObject();
-//            if (jsonReader.nextName().equals("Random products")) {
-//                jsonReader.beginObject();
-//                if (jsonReader.nextName().equals("products")) {
-//                    jsonReader.beginArray();
-//                    while (jsonReader.hasNext()) {
-//                        products.add(jsonReader.nextString());
-//                    }
-//                    jsonReader.endArray();
-//                }
-//                if (jsonReader.nextName().equals("features")) {
-//                    jsonReader.beginArray();
-//                    while (jsonReader.hasNext()) {
-//                        features.add(jsonReader.nextString());
-//                    }
-//                    jsonReader.endArray();
-//                }
-//                if (jsonReader.nextName().equals("problems")) {
-//                    jsonReader.beginArray();
-//                    while (jsonReader.hasNext()) {
-//                        problems.add(jsonReader.nextString());
-//                    }
-//                    jsonReader.endArray();
-//                }
-//                jsonReader.endObject();
-//            }
-//            jsonReader.endObject();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
-
     public static void initialize(Context context) {
         try {
             TsvParserSettings settings = new TsvParserSettings();
@@ -110,7 +58,7 @@ public class RandomItems {
         }
     }
 
-    public static List<Item> getRandomProducts(){
+    public static ArrayList<Item> getRandomProducts(){
         ArrayList<Item> products = new ArrayList<>();
         Item randomProduct;
         for (int i = 0; i < MAX_ITEMS_VALUE; i++){
@@ -122,7 +70,7 @@ public class RandomItems {
         return products;
     }
 
-    public static List<Item> getRandomProblems(){
+    public static ArrayList<Item> getRandomProblems(){
         ArrayList<Item> products = new ArrayList<>();
         Item randomProduct;
         for (int i = 0; i < MAX_ITEMS_VALUE; i++){
@@ -134,7 +82,7 @@ public class RandomItems {
         return products;
     }
 
-    public static List<Item> getRandomFeatures(){
+    public static ArrayList<Item> getRandomFeatures(){
         ArrayList<Item> products = new ArrayList<>();
         Item randomFeature;
         for (int i = 0; i < MAX_ITEMS_VALUE; i++){
